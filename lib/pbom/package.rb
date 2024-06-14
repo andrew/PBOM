@@ -37,6 +37,10 @@ module Pbom
       [@type, @namespace, @name].compact.join(':')
     end
 
+    def to_cite
+      "\\cite{#{to_reference}}"
+    end
+
     def url
       @details['registry_url'] || @details['repository_url'] || @details['homepage']
     end

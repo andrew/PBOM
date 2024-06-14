@@ -25,8 +25,14 @@ module Pbom
 
       # step 4 output finished message
       puts "PBOM generated at #{output_path}"
+      puts "  - #{packages.count} packages found"
       puts "  - sbom.json"
       puts "  - references.bib"
+      puts 
+      puts "To cite all packages in your research, add the following to your LaTeX document:"
+      puts
+      puts generate_cite_list
+      puts
     end
 
     def load_purls
@@ -63,6 +69,10 @@ module Pbom
           license = {#{package.licenses}},
         }
       BIB
+    end
+
+    def generate_cite_list
+      packages.map(&:to_cite).join(", ")
     end
   end
 end
