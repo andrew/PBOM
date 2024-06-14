@@ -1,29 +1,27 @@
 # frozen_string_literal: true
 
 require_relative "pbom/version"
+require_relative "pbom/package"
 require 'json'
-require 'package_url'
 
 module Pbom
   class Error < StandardError; end
   
   class Generator
-    attr_reader :input_path, :output_path
+    attr_reader :input_path, :output_path, :packages
 
     def initialize(input_path: '.', output_path: '.')
       @input_path = input_path
       @output_path = output_path
+      @packages = []
     end
 
     def generate
-      # step 1 generate sbom using syft
       generate_sbom
 
-      # step 2 read sbom and fetch extra metadata for each package
-      sbom = load_sbom
+      load_purls
 
-      # step 3 read sbom and output references.bib
-      generate_references_bib(sbom)
+      generate_references_bib
 
       # step 4 output finished message
       puts "PBOM generated at #{output_path}"
@@ -31,15 +29,13 @@ module Pbom
       puts "  - references.bib"
     end
 
-    def packages
-      packages = []
+    def load_purls
       load_sbom['packages'].map do |artifact|
         # find purl for each package
         next if artifact.nil? || artifact['externalRefs'].nil?
         purl = artifact['externalRefs'].find { |ref| ref['referenceType'] == 'purl' }&.fetch('referenceLocator', nil)
-        packages << purl if purl
+        @packages << Package.new(purl) if purl
       end
-      packages
     end
 
     def generate_sbom
@@ -50,21 +46,21 @@ module Pbom
       JSON.parse(File.read("#{output_path}/sbom.json"))
     end
 
-    def generate_references_bib(sbom)
+    def generate_references_bib
       File.open("#{output_path}/references.bib", "w") do |f|
-        packages.each do |purl|
+        @packages.each do |purl|
           f.puts generate_bib_entry(purl)
         end
       end
     end
 
-    def generate_bib_entry(purl)
-      artifact = PackageURL.parse(purl)
+    def generate_bib_entry(package)
       <<~BIB
-        @misc{#{purl},
-          title = {#{artifact.name}},
-          version = {#{artifact.version}},
-          url = {}
+        @misc{#{package.to_reference},
+          title = {#{package.to_s}},
+          version = {#{package.version}},
+          url = {#{package.url}},
+          license = {#{package.licenses}},
         }
       BIB
     end
