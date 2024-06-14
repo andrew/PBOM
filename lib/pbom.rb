@@ -50,8 +50,8 @@ module Pbom
       <<~BIB
         @misc{#{artifact["name"]},
           title = {#{artifact["name"]}},
-          version = {#{artifact["version"]}},
-          url = {#{artifact["packageLocation"]}}
+          version = {#{artifact["versionInfo"]}},
+          url = {#{artifact["downloadLocation"]}}
         }
       BIB
     end
