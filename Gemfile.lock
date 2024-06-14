@@ -1,20 +1,22 @@
+PATH
+  remote: .
+  specs:
+    pbom (0.1.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
-    faraday (2.9.1)
-      faraday-net_http (>= 2.0, < 3.2)
-    faraday-net_http (3.1.0)
-      net-http
-    net-http (0.4.1)
-      uri
-    uri (0.13.0)
+    minitest (5.23.1)
+    rake (13.2.1)
 
 PLATFORMS
   arm64-darwin-21
   ruby
 
 DEPENDENCIES
-  faraday
+  minitest (~> 5.16)
+  pbom!
+  rake (~> 13.0)
 
 BUNDLED WITH
    2.5.12

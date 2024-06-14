@@ -1,24 +1,28 @@
-# Pbom
+# PBOM
 
-TODO: Delete this and the text below, and describe your gem
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pbom`. To experiment with that code, run `bin/console` for an interactive prompt.
+Paper Bill of Materials (PBOM) is a tool to generate a bill of materials for an academic paper. It uses syft to generate an SBOM from a directory of code, git repository or docker image. It then uses the SBOM to generate a bill of materials for the paper. The bill of materials is a list of all the software dependencies used in the paper, including the version of the software and the license.
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+[syft](https://github.com/anchore/syft) is required to generate the SBOM. Install syft using the following command:
 
-Install the gem and add to the application's Gemfile by executing:
+```bash
+curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sh -s -- -b /usr/local/bin
+```
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+or alternative options listed in the [syft installation guide](https://github.com/anchore/syft?tab=readme-ov-file#installation)
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+Install pbom using the following command:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```bash
+gem install pbom
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+```bash
+pbom generate --input /path/to/code --output /path/to/output
+```
 
 ## Development
 
@@ -33,3 +37,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## Code of Conduct
 
 Everyone interacting in the Pbom project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/pbom/blob/main/CODE_OF_CONDUCT.md).
+
+## License
+
+AGPL-3.0
