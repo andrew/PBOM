@@ -84,7 +84,7 @@ module Pbom
           version = {#{version}},
           url = {#{url}},
           license = {#{licenses}},
-          year = {#{year}}
+          year = {#{year}},
           month = {#{month}},
           howpublished = {#{howpublished}}
         }
