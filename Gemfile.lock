@@ -2,11 +2,13 @@ PATH
   remote: .
   specs:
     pbom (0.1.0)
+      packageurl-ruby
 
 GEM
   remote: https://rubygems.org/
   specs:
     minitest (5.23.1)
+    packageurl-ruby (0.1.0)
     rake (13.2.1)
 
 PLATFORMS

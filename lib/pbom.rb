@@ -2,6 +2,7 @@
 
 require_relative "pbom/version"
 require 'json'
+require 'package_url'
 
 module Pbom
   class Error < StandardError; end
@@ -30,6 +31,17 @@ module Pbom
       puts "  - references.bib"
     end
 
+    def packages
+      packages = []
+      load_sbom['packages'].map do |artifact|
+        # find purl for each package
+        next if artifact.nil? || artifact['externalRefs'].nil?
+        purl = artifact['externalRefs'].find { |ref| ref['referenceType'] == 'purl' }&.fetch('referenceLocator', nil)
+        packages << purl if purl
+      end
+      packages
+    end
+
     def generate_sbom
       `syft scan #{input_path} -o spdx-json=#{output_path}/sbom.json > /dev/null 2>&1`
     end
@@ -40,18 +52,19 @@ module Pbom
 
     def generate_references_bib(sbom)
       File.open("#{output_path}/references.bib", "w") do |f|
-        sbom["packages"].each do |artifact|
-          f.puts generate_bib_entry(artifact)
+        packages.each do |purl|
+          f.puts generate_bib_entry(purl)
         end
       end
     end
 
-    def generate_bib_entry(artifact)
+    def generate_bib_entry(purl)
+      artifact = PackageURL.parse(purl)
       <<~BIB
-        @misc{#{artifact["name"]},
-          title = {#{artifact["name"]}},
-          version = {#{artifact["versionInfo"]}},
-          url = {#{artifact["downloadLocation"]}}
+        @misc{#{purl},
+          title = {#{artifact.name}},
+          version = {#{artifact.version}},
+          url = {}
         }
       BIB
     end
