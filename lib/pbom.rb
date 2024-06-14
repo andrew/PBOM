@@ -25,7 +25,7 @@ module Pbom
 
       # step 4 output finished message
       puts "PBOM generated at #{output_path}"
-      puts "  - #{packages.count} packages found"
+      puts "  - #{packages.count} unique packages found"
       puts "  - sbom.json"
       puts "  - references.bib"
       puts 
@@ -37,10 +37,14 @@ module Pbom
 
     def load_purls
       load_sbom['packages'].map do |artifact|
-        # find purl for each package
         next if artifact.nil? || artifact['externalRefs'].nil?
         purl = artifact['externalRefs'].find { |ref| ref['referenceType'] == 'purl' }&.fetch('referenceLocator', nil)
-        @packages << Package.new(purl) if purl
+        if purl
+          parse_purl = PackageURL.parse(purl)
+          # skip if already in list
+          next if @packages.any? { |pkg| pkg.matches?(purl) }
+          @packages << Package.new(purl) 
+        end
       end
     end
 
@@ -54,21 +58,10 @@ module Pbom
 
     def generate_references_bib
       File.open("#{output_path}/references.bib", "w") do |f|
-        @packages.each do |purl|
-          f.puts generate_bib_entry(purl)
+        packages.each do |package|
+          f.puts package.generate_bib_entry
         end
       end
-    end
-
-    def generate_bib_entry(package)
-      <<~BIB
-        @misc{#{package.to_reference},
-          title = {#{package.to_s}},
-          version = {#{package.version}},
-          url = {#{package.url}},
-          license = {#{package.licenses}},
-        }
-      BIB
     end
 
     def generate_cite_list

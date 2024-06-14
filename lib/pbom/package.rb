@@ -29,6 +29,14 @@ module Pbom
       end
     end
 
+    def matches?(other_purl)
+      other_parse_purl = PackageURL.parse(other_purl)
+      return false if @type != other_parse_purl.type
+      return false if @namespace != other_parse_purl.namespace
+      return false if @name != other_parse_purl.name
+      true
+    end
+
     def to_s
       "#{@name} #{@version}"
     end
@@ -51,6 +59,17 @@ module Pbom
 
     def authors
       # TBD
+    end
+
+    def generate_bib_entry
+      <<~BIB
+        @misc{#{to_reference},
+          title = {#{to_s}},
+          version = {#{version}},
+          url = {#{url}},
+          license = {#{licenses}},
+        }
+      BIB
     end
 
   end
