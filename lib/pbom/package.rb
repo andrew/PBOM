@@ -37,8 +37,8 @@ module Pbom
       true
     end
 
-    def to_s
-      "#{@name} #{@version}"
+    def title
+      "#{@name} (#{@version})"
     end
 
     def to_reference
@@ -50,24 +50,43 @@ module Pbom
     end
 
     def url
-      @details['registry_url'] || @details['repository_url'] || @details['homepage']
+      @details['homepage'] || @details['repository_url'] || @details['registry_url'] 
     end
 
     def licenses
       @details['licenses']
     end
 
+    def year
+      @details['latest_release_published_at']&.split('-')&.first
+    end
+
+    def month
+      @details['latest_release_published_at']&.split('-')[1]
+    end
+
     def authors
       # TBD
     end
 
+    def howpublished
+      if @details['registry']
+        "Published on #{@details['registry']['url']}"
+      else
+        "Retrieved from #{purl}"
+      end
+    end
+
     def generate_bib_entry
       <<~BIB
-        @misc{#{to_reference},
-          title = {#{to_s}},
+        @software{#{to_reference},
+          title = {{#{title}}},
           version = {#{version}},
           url = {#{url}},
           license = {#{licenses}},
+          year = {#{year}}
+          month = {#{month}},
+          howpublished = {#{howpublished}}
         }
       BIB
     end

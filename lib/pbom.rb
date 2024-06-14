@@ -23,7 +23,6 @@ module Pbom
 
       generate_references_bib
 
-      # step 4 output finished message
       puts "PBOM generated at #{output_path}"
       puts "  - #{packages.count} unique packages found"
       puts "  - sbom.json"
@@ -40,8 +39,6 @@ module Pbom
         next if artifact.nil? || artifact['externalRefs'].nil?
         purl = artifact['externalRefs'].find { |ref| ref['referenceType'] == 'purl' }&.fetch('referenceLocator', nil)
         if purl
-          parse_purl = PackageURL.parse(purl)
-          # skip if already in list
           next if @packages.any? { |pkg| pkg.matches?(purl) }
           @packages << Package.new(purl) 
         end
