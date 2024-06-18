@@ -62,7 +62,7 @@ module Pbom
     end
 
     def month
-      @details['latest_release_published_at']&.split('-')[1]
+      (@details['latest_release_published_at']&.split('-') || [])[1]
     end
 
     def authors
