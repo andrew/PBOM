@@ -1,5 +1,6 @@
 require 'package_url'
 require 'faraday'
+require 'cff'
 
 module Pbom
   class Package
@@ -15,6 +16,7 @@ module Pbom
       @qualifiers = parse_purl.qualifiers
       @subpath = parse_purl.subpath
       @details = {}
+      @citation = nil
       fetch_details
     end
 
@@ -26,6 +28,7 @@ module Pbom
         pkg = data.first
         return if pkg.nil?
         @details = pkg
+        download_citation_cff
       end
     end
 
@@ -77,7 +80,29 @@ module Pbom
       end
     end
 
+    def download_citation_cff
+      if @details['repo_metadata'] && @details['repo_metadata']['metadata'] && @details['repo_metadata']['metadata']['files'] && @details['repo_metadata']['metadata']['files']['citation']
+        
+        path = @details['repo_metadata']['metadata']['files']['citation']
+        puts "Downloading #{path} from #{@details['repo_metadata']['full_name']}..."
+        branch = @details['repo_metadata']['default_branch'] || 'master' 
+        
+        url = "https://raw.githubusercontent.com/#{@details['repo_metadata']['full_name']}/#{branch}/#{path}"
+
+        response = Faraday.get(url)
+        if response.status == 200
+          @citation = response.body
+        end
+      end
+    end
+
+    def render_citation_cff
+      cff = CFF::Index.read(@citation)
+      cff.to_bibtex
+    end
+
     def generate_bib_entry
+      return render_citation_cff if @citation
       <<~BIB
         @software{#{to_reference},
           author = {#{authors}},

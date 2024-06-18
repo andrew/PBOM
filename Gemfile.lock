@@ -2,14 +2,30 @@ PATH
   remote: .
   specs:
     pbom (0.1.0)
+      cff
+      faraday
+      json
       packageurl-ruby
 
 GEM
   remote: https://rubygems.org/
   specs:
+    cff (1.2.0)
+      json_schema (~> 0.20.4)
+      language_list (~> 1.2.1)
+    faraday (2.9.2)
+      faraday-net_http (>= 2.0, < 3.2)
+    faraday-net_http (3.1.0)
+      net-http
+    json (2.7.2)
+    json_schema (0.20.9)
+    language_list (1.2.1)
     minitest (5.23.1)
+    net-http (0.4.1)
+      uri
     packageurl-ruby (0.1.0)
     rake (13.2.1)
+    uri (0.13.0)
 
 PLATFORMS
   arm64-darwin-21

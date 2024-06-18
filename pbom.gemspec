@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'packageurl-ruby'
   spec.add_dependency 'json'
   spec.add_dependency 'faraday'
+  spec.add_dependency 'cff'
 end
