@@ -66,7 +66,7 @@ module Pbom
     end
 
     def authors
-      # TBD
+      Array(@details['maintainers']).map{ |m| m['name'] || m['login'] }.join(', ')
     end
 
     def howpublished
@@ -80,6 +80,7 @@ module Pbom
     def generate_bib_entry
       <<~BIB
         @software{#{to_reference},
+          author = {#{authors}},
           title = {{#{title}}},
           version = {#{version}},
           url = {#{url}},
