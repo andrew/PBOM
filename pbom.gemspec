@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
     end
   end
   spec.bindir = "exe"
-  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) } + ["cli"]
+  spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) } + ["pbom"]
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'packageurl-ruby'
