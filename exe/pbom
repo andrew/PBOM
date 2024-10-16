@@ -14,6 +14,11 @@ OptionParser.new do |opts|
   opts.on("--output PATH", "Set the output path") do |path|
     options[:output_path] = path
   end
+
+  opts.on("--version", "Show the PBOM version") do
+    puts "PBOM version #{Pbom::VERSION}"
+    exit
+  end
 end.parse!
 
 # Parse command-line arguments and call the appropriate functions
