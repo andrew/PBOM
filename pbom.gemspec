@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ["Andrew Nesbitt"]
   spec.email = ["andrewnez@gmail.com"]
 
-  spec.summary = "Generate a package bill of materials from a project"
-  spec.description = "Generate a package bill of materials from a project"
+  spec.summary = "Paper Bill of Materials (PBOM) - Generate a paper bill of materials from the software of a paper "
+  spec.description = "Paper Bill of Materials (PBOM) - Generate a paper bill of materials from the software of a paper "
   spec.homepage = "https://github.com/andrew/PBOM"
   spec.required_ruby_version = ">= 3.0.0"
 
