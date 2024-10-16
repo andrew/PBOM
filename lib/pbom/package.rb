@@ -84,6 +84,7 @@ module Pbom
       if @details['repo_metadata'] && @details['repo_metadata']['metadata'] && @details['repo_metadata']['metadata']['files'] && @details['repo_metadata']['metadata']['files']['citation']
         
         path = @details['repo_metadata']['metadata']['files']['citation']
+        return unless path.end_with?('.cff')
         puts "Downloading #{path} from #{@details['repo_metadata']['full_name']}..."
         branch = @details['repo_metadata']['default_branch'] || 'master' 
         
@@ -97,8 +98,12 @@ module Pbom
     end
 
     def render_citation_cff
-      cff = CFF::Index.read(@citation)
-      cff.to_bibtex
+      begin
+        cff = CFF::Index.read(@citation)
+        cff.to_bibtex
+      rescue StandardError
+        nil
+      end
     end
 
     def generate_bib_entry
