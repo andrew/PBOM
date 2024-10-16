@@ -13,19 +13,22 @@ GEM
     cff (1.2.0)
       json_schema (~> 0.20.4)
       language_list (~> 1.2.1)
-    faraday (2.9.2)
-      faraday-net_http (>= 2.0, < 3.2)
-    faraday-net_http (3.1.0)
+    faraday (2.12.0)
+      faraday-net_http (>= 2.0, < 3.4)
+      json
+      logger
+    faraday-net_http (3.3.0)
       net-http
     json (2.7.2)
     json_schema (0.20.9)
     language_list (1.2.1)
-    minitest (5.23.1)
+    logger (1.6.1)
+    minitest (5.25.1)
     net-http (0.4.1)
       uri
     packageurl-ruby (0.1.0)
     rake (13.2.1)
-    uri (0.13.0)
+    uri (0.13.1)
 
 PLATFORMS
   arm64-darwin-21
@@ -37,4 +40,4 @@ DEPENDENCIES
   rake (~> 13.0)
 
 BUNDLED WITH
-   2.5.12
+   2.5.21
