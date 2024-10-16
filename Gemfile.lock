@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    pbom (0.1.1)
+    pbom (0.1.2)
       cff
       faraday
       json
