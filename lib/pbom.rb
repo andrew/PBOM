@@ -22,7 +22,7 @@ module Pbom
       load_purls
 
       generate_references_bib
-
+      puts ""
       puts "PBOM generated at #{output_path}"
       puts "  - #{packages.count} unique packages found"
       puts "  - sbom.json"
