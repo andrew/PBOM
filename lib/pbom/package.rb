@@ -5,6 +5,7 @@ require 'cff'
 module Pbom
   class Package
     attr_reader :name, :version, :purl, :details
+    attr_accessor :ref_name
 
     def initialize(purl)
       @purl = purl
@@ -17,6 +18,7 @@ module Pbom
       @subpath = parse_purl.subpath
       @details = {}
       @citation = nil
+      @ref_name = nil
       fetch_details
     end
 
@@ -49,7 +51,7 @@ module Pbom
     end
 
     def to_cite
-      "\\cite{#{to_reference}}"
+      "\\cite{#{ref_name}}"
     end
 
     def url
@@ -102,6 +104,18 @@ module Pbom
         cff = CFF::Index.read(@citation)
         cff.to_bibtex
       rescue StandardError
+        nil
+      end
+    end
+
+    def extract_ref(bibtex_entry)
+      # Match the part after @software{ and before the first comma
+      if bibtex_entry =~ /@[a-zA-Z]+{([^,]+),/
+        ref = $1  # The captured part (reference) is in $1
+        # puts "Extracted reference: #{ref}"
+        ref
+      else
+        puts "Warning: Reference not found in bib file"
         nil
       end
     end

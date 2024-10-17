@@ -27,7 +27,7 @@ module Pbom
       puts "  - #{packages.count} unique packages found"
       puts "  - sbom.json"
       puts "  - references.bib"
-      puts 
+      puts
       puts "To cite all packages in your research, add the following to your LaTeX document:"
       puts
       puts generate_cite_list
@@ -56,7 +56,9 @@ module Pbom
     def generate_references_bib
       File.open("#{output_path}/references.bib", "w") do |f|
         packages.each do |package|
-          f.puts package.generate_bib_entry
+          bib = package.generate_bib_entry
+          package.ref_name = package.extract_ref(bib)
+          f.puts bib
         end
       end
     end
