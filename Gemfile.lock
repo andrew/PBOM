@@ -28,7 +28,7 @@ GEM
       uri
     packageurl-ruby (0.1.0)
     rake (13.2.1)
-    uri (0.13.1)
+    uri (0.13.3)
 
 PLATFORMS
   arm64-darwin-21
