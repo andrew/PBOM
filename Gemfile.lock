@@ -19,7 +19,7 @@ GEM
       logger
     faraday-net_http (3.4.2)
       net-http (~> 0.5)
-    json (2.18.1)
+    json (2.19.2)
     json_schema (0.20.9)
     language_list (1.2.1)
     logger (1.7.0)
