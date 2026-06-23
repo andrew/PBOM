@@ -13,13 +13,13 @@ GEM
     cff (1.2.0)
       json_schema (~> 0.20.4)
       language_list (~> 1.2.1)
-    faraday (2.14.2)
+    faraday (2.14.3)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.2)
+    faraday-net_http (3.4.4)
       net-http (~> 0.5)
-    json (2.19.5)
+    json (2.20.0)
     json_schema (0.20.9)
     language_list (1.2.1)
     logger (1.7.0)
